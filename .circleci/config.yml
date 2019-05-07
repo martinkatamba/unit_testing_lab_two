@@ -1,39 +1,11 @@
-version: 2 # use CircleCI 2.0
-jobs: # A basic unit of work in a run
-  build: # runs not using Workflows must have a `build` job as entry point 
-    # directory where steps are run
-    working_directory: ~/circleci-demo-python
-    docker:
-      - image: circleci/python:3.6.4
-        environment:
-          PIPENV_VENV_IN_PROJECT: true
-    steps:
-      - checkout
-      - run: sudo chown -R circleci:circleci /usr/local/bin
-      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
-      - restore_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-      - run:
-          command: |
-            sudo pip install pipenv
-            pipenv install
-      - save_cache:
-          key: deps9-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          paths:
-            - ".venv"
-            - "/usr/local/bin"
-            - "/usr/local/lib/python3.6/site-packages"
+machine:
+  python:
+    version: 3.5.2
 
-      - run:
-          command: |
-           pip install --upgrade pip
+dependencies:
+  override:
+    - pip install -r requirements.txt
 
-      - run:
-          command: |
-           sudo pip install -r requirements.txt    
-     
-      - run:
-          command: |
-            pipenv run "nosetests tests/*.py"
-    
-     
+test:
+  override:
+    - nosetests tests/math-test.py

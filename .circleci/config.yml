@@ -23,10 +23,14 @@ jobs: # A basic unit of work in a run
             - ".venv"
             - "/usr/local/bin"
             - "/usr/local/lib/python3.6/site-packages"
-            
+
       - run:
           command: |
            pip install --upgrade pip
+
+      - run:
+          command: |
+           pip install -r requirements.txt    
      
       - run:
           command: |

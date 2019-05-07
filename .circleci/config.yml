@@ -9,9 +9,11 @@ jobs: # A basic unit of work in a run
         
     steps: # steps that comprise the `build` job
       - checkout # check out source code to working directory
+      - run: sudo chown -R circleci:circleci /usr/local/bin
+      - run: sudo chown -R circleci:circleci /usr/local/lib/python3.6/site-packages
       - run:
           command: |
-            pip install -r requirements.txt
+            run pip install -r requirements.txt
       - run:
           command: |
             run nosetests tests/*.py
